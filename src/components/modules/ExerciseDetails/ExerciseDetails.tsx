@@ -26,7 +26,7 @@ export default async function ExerciseDetails({
   ];
 
   return (
-    <section className="mx-auto w-full max-w-[1060px] px-4 pt-8 sm:px-6 sm:pt-10">
+    <section className="mx-auto w-full max-w-[1200px] px-4 pt-8 sm:px-6 sm:pt-10">
       <div className="grid gap-8 md:grid-cols-2">
         {/* Image */}
         <div className="relative mx-auto aspect-[11/16] w-full max-w-md overflow-hidden rounded-2xl md:max-w-none">
