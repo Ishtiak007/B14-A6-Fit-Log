@@ -1,14 +1,23 @@
 import { Exercise } from "@/utils/exercise";
+import { cacheLife } from "next/cache";
 
 const API_URL = "https://api.abcz.workers.dev/api/fitlog";
 
 export async function getExercises(): Promise<Exercise[]> {
-  const res = await fetch(API_URL, { next: { revalidate: 3600 } });
+  "use cache";
+  cacheLife("hours");
+
+  const res = await fetch(API_URL);
   if (!res.ok) throw new Error("Failed to fetch exercises");
   return res.json();
 }
 
-export async function getExercise(id: number): Promise<Exercise | undefined> {
-  const exercises = await getExercises();
-  return exercises.find((e) => e.id === id);
+export async function getExercise(id: number): Promise<Exercise | null> {
+  "use cache";
+  cacheLife("hours");
+
+  const res = await fetch(`${API_URL}/${id}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error("Failed to fetch exercise");
+  return res.json();
 }

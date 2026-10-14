@@ -1,21 +1,18 @@
 "use client";
 
+import { usePlan } from "@/app/context/PlanContext";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-type HeaderProps = {
-  planCount?: number;
-  savedCount?: number;
-};
 
 const NAV_LINKS = [
   { label: "Workouts", href: "/" },
   { label: "My Plan", href: "/my-plan" },
 ];
 
-export default function Navbar({ planCount = 0, savedCount = 0 }: HeaderProps) {
+export default function Navbar() {
   const pathname = usePathname();
+  const { planCount, savedCount } = usePlan();
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -37,7 +34,7 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: HeaderProps) {
           </span>
         </Link>
 
-        {/* Counters: top-right on mobile, right column on sm+ */}
+        {/* Dynamic counters */}
         <div className="flex items-center justify-end gap-3 sm:order-3 sm:gap-4">
           <Link
             href="/my-plan"
@@ -60,7 +57,7 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: HeaderProps) {
           </Link>
         </div>
 
-        {/* Nav: full-width row on mobile, centered column on sm+ */}
+        {/* Nav */}
         <nav className="order-last flex w-full items-center justify-center gap-1 sm:order-2 sm:w-auto">
           {NAV_LINKS.map(({ label, href }) => (
             <Link
